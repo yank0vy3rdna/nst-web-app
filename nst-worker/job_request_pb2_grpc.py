@@ -14,7 +14,7 @@ class JobServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.GiveJob = channel.unary_unary(
+        self.GiveJob = channel.unary_stream(
                 '/web_nst.JobService/GiveJob',
                 request_serializer=job__request__pb2.GiveJobRequest.SerializeToString,
                 response_deserializer=job__request__pb2.GiveJobResponse.FromString,
@@ -24,7 +24,7 @@ class JobServiceStub(object):
                 request_serializer=job__request__pb2.JobProgressData.SerializeToString,
                 response_deserializer=job__request__pb2.Ok.FromString,
                 )
-        self.JobEnd = channel.unary_unary(
+        self.JobEnd = channel.stream_unary(
                 '/web_nst.JobService/JobEnd',
                 request_serializer=job__request__pb2.JobEndRequest.SerializeToString,
                 response_deserializer=job__request__pb2.Ok.FromString,
@@ -46,7 +46,7 @@ class JobServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def JobEnd(self, request, context):
+    def JobEnd(self, request_iterator, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -55,7 +55,7 @@ class JobServiceServicer(object):
 
 def add_JobServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GiveJob': grpc.unary_unary_rpc_method_handler(
+            'GiveJob': grpc.unary_stream_rpc_method_handler(
                     servicer.GiveJob,
                     request_deserializer=job__request__pb2.GiveJobRequest.FromString,
                     response_serializer=job__request__pb2.GiveJobResponse.SerializeToString,
@@ -65,7 +65,7 @@ def add_JobServiceServicer_to_server(servicer, server):
                     request_deserializer=job__request__pb2.JobProgressData.FromString,
                     response_serializer=job__request__pb2.Ok.SerializeToString,
             ),
-            'JobEnd': grpc.unary_unary_rpc_method_handler(
+            'JobEnd': grpc.stream_unary_rpc_method_handler(
                     servicer.JobEnd,
                     request_deserializer=job__request__pb2.JobEndRequest.FromString,
                     response_serializer=job__request__pb2.Ok.SerializeToString,
@@ -91,7 +91,7 @@ class JobService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/web_nst.JobService/GiveJob',
+        return grpc.experimental.unary_stream(request, target, '/web_nst.JobService/GiveJob',
             job__request__pb2.GiveJobRequest.SerializeToString,
             job__request__pb2.GiveJobResponse.FromString,
             options, channel_credentials,
@@ -115,7 +115,7 @@ class JobService(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def JobEnd(request,
+    def JobEnd(request_iterator,
             target,
             options=(),
             channel_credentials=None,
@@ -125,7 +125,7 @@ class JobService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/web_nst.JobService/JobEnd',
+        return grpc.experimental.stream_unary(request_iterator, target, '/web_nst.JobService/JobEnd',
             job__request__pb2.JobEndRequest.SerializeToString,
             job__request__pb2.Ok.FromString,
             options, channel_credentials,

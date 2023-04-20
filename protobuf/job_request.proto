@@ -10,8 +10,8 @@ message GiveJobRequest{
   string workerId = 1;
 }
 message GiveJobResponse{
-  bytes contentImage = 1;
-  bytes styleImage = 2;
+  bytes imageChunk = 1;
+  ImageType imageType = 2;
   string requestId = 3;
   string workerId = 4;
   bool jobGiven = 5;
@@ -25,14 +25,14 @@ message JobProgressData{
 message Ok {
 }
 message JobEndRequest {
-  bytes image = 1;
+  bytes imageChunk = 1;
   string requestId = 2;
   string workerId = 3;
 }
 
 
 service JobService {
-  rpc GiveJob(GiveJobRequest) returns (GiveJobResponse);
+  rpc GiveJob(GiveJobRequest) returns (stream GiveJobResponse);
   rpc JobProgress(stream JobProgressData) returns (Ok);
-  rpc JobEnd(JobEndRequest) returns (Ok);
+  rpc JobEnd(stream JobEndRequest) returns (Ok);
 }

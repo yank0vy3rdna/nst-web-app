@@ -1,7 +1,7 @@
 from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Optional as _Optional
+from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 CONTENT: ImageType
 DESCRIPTOR: _descriptor.FileDescriptor
@@ -14,28 +14,28 @@ class GiveJobRequest(_message.Message):
     def __init__(self, workerId: _Optional[str] = ...) -> None: ...
 
 class GiveJobResponse(_message.Message):
-    __slots__ = ["contentImage", "jobGiven", "requestId", "styleImage", "workerId"]
-    CONTENTIMAGE_FIELD_NUMBER: _ClassVar[int]
+    __slots__ = ["imageChunk", "imageType", "jobGiven", "requestId", "workerId"]
+    IMAGECHUNK_FIELD_NUMBER: _ClassVar[int]
+    IMAGETYPE_FIELD_NUMBER: _ClassVar[int]
     JOBGIVEN_FIELD_NUMBER: _ClassVar[int]
     REQUESTID_FIELD_NUMBER: _ClassVar[int]
-    STYLEIMAGE_FIELD_NUMBER: _ClassVar[int]
     WORKERID_FIELD_NUMBER: _ClassVar[int]
-    contentImage: bytes
+    imageChunk: bytes
+    imageType: ImageType
     jobGiven: bool
     requestId: str
-    styleImage: bytes
     workerId: str
-    def __init__(self, contentImage: _Optional[bytes] = ..., styleImage: _Optional[bytes] = ..., requestId: _Optional[str] = ..., workerId: _Optional[str] = ..., jobGiven: bool = ...) -> None: ...
+    def __init__(self, imageChunk: _Optional[bytes] = ..., imageType: _Optional[_Union[ImageType, str]] = ..., requestId: _Optional[str] = ..., workerId: _Optional[str] = ..., jobGiven: bool = ...) -> None: ...
 
 class JobEndRequest(_message.Message):
-    __slots__ = ["image", "requestId", "workerId"]
-    IMAGE_FIELD_NUMBER: _ClassVar[int]
+    __slots__ = ["imageChunk", "requestId", "workerId"]
+    IMAGECHUNK_FIELD_NUMBER: _ClassVar[int]
     REQUESTID_FIELD_NUMBER: _ClassVar[int]
     WORKERID_FIELD_NUMBER: _ClassVar[int]
-    image: bytes
+    imageChunk: bytes
     requestId: str
     workerId: str
-    def __init__(self, image: _Optional[bytes] = ..., requestId: _Optional[str] = ..., workerId: _Optional[str] = ...) -> None: ...
+    def __init__(self, imageChunk: _Optional[bytes] = ..., requestId: _Optional[str] = ..., workerId: _Optional[str] = ...) -> None: ...
 
 class JobProgressData(_message.Message):
     __slots__ = ["progressPercent", "requestId", "workerId"]

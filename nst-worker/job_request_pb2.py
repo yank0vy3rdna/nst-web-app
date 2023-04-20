@@ -13,25 +13,25 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11job_request.proto\x12\x07web_nst\"\"\n\x0eGiveJobRequest\x12\x10\n\x08workerId\x18\x01 \x01(\t\"r\n\x0fGiveJobResponse\x12\x14\n\x0c\x63ontentImage\x18\x01 \x01(\x0c\x12\x12\n\nstyleImage\x18\x02 \x01(\x0c\x12\x11\n\trequestId\x18\x03 \x01(\t\x12\x10\n\x08workerId\x18\x04 \x01(\t\x12\x10\n\x08jobGiven\x18\x05 \x01(\x08\"O\n\x0fJobProgressData\x12\x10\n\x08workerId\x18\x01 \x01(\t\x12\x11\n\trequestId\x18\x02 \x01(\t\x12\x17\n\x0fprogressPercent\x18\x03 \x01(\x02\"\x04\n\x02Ok\"C\n\rJobEndRequest\x12\r\n\x05image\x18\x01 \x01(\x0c\x12\x11\n\trequestId\x18\x02 \x01(\t\x12\x10\n\x08workerId\x18\x03 \x01(\t*#\n\tImageType\x12\x0b\n\x07\x43ONTENT\x10\x00\x12\t\n\x05STYLE\x10\x01\x32\xb1\x01\n\nJobService\x12<\n\x07GiveJob\x12\x17.web_nst.GiveJobRequest\x1a\x18.web_nst.GiveJobResponse\x12\x36\n\x0bJobProgress\x12\x18.web_nst.JobProgressData\x1a\x0b.web_nst.Ok(\x01\x12-\n\x06JobEnd\x12\x16.web_nst.JobEndRequest\x1a\x0b.web_nst.Okb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11job_request.proto\x12\x07web_nst\"\"\n\x0eGiveJobRequest\x12\x10\n\x08workerId\x18\x01 \x01(\t\"\x83\x01\n\x0fGiveJobResponse\x12\x12\n\nimageChunk\x18\x01 \x01(\x0c\x12%\n\timageType\x18\x02 \x01(\x0e\x32\x12.web_nst.ImageType\x12\x11\n\trequestId\x18\x03 \x01(\t\x12\x10\n\x08workerId\x18\x04 \x01(\t\x12\x10\n\x08jobGiven\x18\x05 \x01(\x08\"O\n\x0fJobProgressData\x12\x10\n\x08workerId\x18\x01 \x01(\t\x12\x11\n\trequestId\x18\x02 \x01(\t\x12\x17\n\x0fprogressPercent\x18\x03 \x01(\x02\"\x04\n\x02Ok\"H\n\rJobEndRequest\x12\x12\n\nimageChunk\x18\x01 \x01(\x0c\x12\x11\n\trequestId\x18\x02 \x01(\t\x12\x10\n\x08workerId\x18\x03 \x01(\t*#\n\tImageType\x12\x0b\n\x07\x43ONTENT\x10\x00\x12\t\n\x05STYLE\x10\x01\x32\xb5\x01\n\nJobService\x12>\n\x07GiveJob\x12\x17.web_nst.GiveJobRequest\x1a\x18.web_nst.GiveJobResponse0\x01\x12\x36\n\x0bJobProgress\x12\x18.web_nst.JobProgressData\x1a\x0b.web_nst.Ok(\x01\x12/\n\x06JobEnd\x12\x16.web_nst.JobEndRequest\x1a\x0b.web_nst.Ok(\x01\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'job_request_pb2', globals())
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _IMAGETYPE._serialized_start=338
-  _IMAGETYPE._serialized_end=373
+  _IMAGETYPE._serialized_start=361
+  _IMAGETYPE._serialized_end=396
   _GIVEJOBREQUEST._serialized_start=30
   _GIVEJOBREQUEST._serialized_end=64
-  _GIVEJOBRESPONSE._serialized_start=66
-  _GIVEJOBRESPONSE._serialized_end=180
-  _JOBPROGRESSDATA._serialized_start=182
-  _JOBPROGRESSDATA._serialized_end=261
-  _OK._serialized_start=263
-  _OK._serialized_end=267
-  _JOBENDREQUEST._serialized_start=269
-  _JOBENDREQUEST._serialized_end=336
-  _JOBSERVICE._serialized_start=376
-  _JOBSERVICE._serialized_end=553
+  _GIVEJOBRESPONSE._serialized_start=67
+  _GIVEJOBRESPONSE._serialized_end=198
+  _JOBPROGRESSDATA._serialized_start=200
+  _JOBPROGRESSDATA._serialized_end=279
+  _OK._serialized_start=281
+  _OK._serialized_end=285
+  _JOBENDREQUEST._serialized_start=287
+  _JOBENDREQUEST._serialized_end=359
+  _JOBSERVICE._serialized_start=399
+  _JOBSERVICE._serialized_end=580
 # @@protoc_insertion_point(module_scope)

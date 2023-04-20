@@ -1,2 +1,0 @@
-class BackendAPIRequestException(Exception):
-    pass
