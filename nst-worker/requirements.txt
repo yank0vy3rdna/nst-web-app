@@ -1,0 +1,6 @@
+torch~=2.0.0+cu118
+torchvision~=0.15.1+cu118
+Pillow==8.1.2
+opencv_python==4.5.1.48
+matplotlib==3.3.4
+requests~=2.28.1
