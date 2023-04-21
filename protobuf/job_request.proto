@@ -1,6 +1,8 @@
 syntax = 'proto3';
 
 package web_nst;
+option go_package ="nst-backend/grpc";
+
 enum ImageType {
   CONTENT = 0;
   STYLE = 1;
