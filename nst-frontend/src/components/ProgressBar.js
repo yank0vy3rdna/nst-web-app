@@ -1,4 +1,5 @@
 import {Button, Flex} from "@chakra-ui/react";
+import {buttonColorText, colorBackground, hoverButtonColorText} from "../styles/colors";
 
 export const ProgressBar = () => {
     return <Flex
@@ -11,12 +12,19 @@ export const ProgressBar = () => {
             w={'170px'}
             h={'42px'}
             borderRadius={'8px'}
-            border={'1px solid orange'}
-            bg={'white'}
-            color={'orange'}
+            background={colorBackground}
+            color={buttonColorText}
+            fontSize={'20px'}
+            fontWeight={'bold'}
+            outline={"4px dashed"}
+            outlineColor={'rgba(0,0,0,0.5)'}
+            transition={'0.5s'}
             _hover={{
-                background: 'orange',
-                color: 'white',
+                background: 'rgba(0,0,0,0.1)',
+                color: hoverButtonColorText,
+                outline: "4px solid",
+                outlineColor: 'rgba(0,0,0,0.5)',
+                transition: '0.5s'
             }}
         >
             Generate

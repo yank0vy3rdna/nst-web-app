@@ -1,7 +1,7 @@
-import DropZone from "./DropZone";
 import React from "react";
 import {Flex, useMediaQuery} from "@chakra-ui/react";
 import {StyleImageDropZone} from "./StyleImageDropZone";
+import {ContentImageDropZone} from "./ContentImageDropZone";
 
 
 export const DropZoneWrapper = () => {
@@ -11,8 +11,9 @@ export const DropZoneWrapper = () => {
         flexDirection={isMobile ? 'column' : ''}
         justifyContent={'center'}
         alignItems={'center'}
+        zIndex={200}
     >
-       <StyleImageDropZone/>
-        <DropZone/>
+        <ContentImageDropZone/>
+        <StyleImageDropZone/>
     </Flex>
 }

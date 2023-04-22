@@ -1,7 +1,6 @@
-import './styles/colors.css'
-import DropZone from "./components/dropzone/DropZone";
-import {CSSReset, Flex, theme, ThemeProvider} from "@chakra-ui/react";
+import {CSSReset, ThemeProvider} from "@chakra-ui/react";
 import {StartPage} from "./pages/StartPage";
+import {theme} from "./ui/theme";
 
 function App() {
     return (

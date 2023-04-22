@@ -10,9 +10,17 @@ export const useFileStore = create(
                 isStyleImageUploaded: false,
                 isContentImageUploaded: false,
                 baseUrl: "/api",
-                setContentImage: (image) => set(() => ({
-                    contentImage: image, isContentImageUploaded: true
-                })),
+                setContentImage: (image) =>  new Promise((resolve, reject) => {
+                    const fr = new FileReader()
+
+                    fr.onload = (event) => {
+                        resolve(set({contentImage: event.target.result, isContentImageUploaded: true}));
+                    };
+
+                    fr.onerror = reject;
+                    fr.readAsDataURL(image);
+
+                }),
                 setStyleImage: (image) =>  new Promise((resolve, reject) => {
                     const fr = new FileReader()
 
