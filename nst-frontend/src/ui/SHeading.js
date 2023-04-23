@@ -1,13 +1,14 @@
-import {Flex, Heading} from "@chakra-ui/react";
+import {Flex, Heading, useMediaQuery} from "@chakra-ui/react";
 import {textShadow} from "../styles/colors";
 
 
 export const SHeading = ({color, text, fontWeight, size}) => {
+    const [isMobile] = useMediaQuery("(max-width: 1100px)")
     return <Flex
         alignItems={'center'}
         w={'100%'}
         mb={'10px'}
-        mt={'50px'}
+        mt={isMobile?'10px':'50px'}
         zIndex={200}
     >
         <Heading

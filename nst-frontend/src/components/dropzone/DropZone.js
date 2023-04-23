@@ -29,8 +29,8 @@ const DropZone = ({onDropFile, isImageUploaded, image}) => {
     >
         <Flex
             {...getRootProps()}
-            w={isMobile ? '300px' : '500px'}
-            h={isMobile ? '300px' : '500px'}
+            w={isMobile ? '200px' : '500px'}
+            h={isMobile ? '200px' : '500px'}
             // borderRadius={'8px'}
             backgroundImage={isImageUploaded ? image : ''}
             backgroundPosition={'center center'}
@@ -40,8 +40,19 @@ const DropZone = ({onDropFile, isImageUploaded, image}) => {
             <input {...getInputProps()}/>
             {
                 (isDragActive || !isImageUploaded) ?
-                    <Flex w={'100%'} justifyContent={"center"} alignItems={'center'}><Icon as={AiOutlineUpload} color={'#c0725b'}
-                                                                                           boxSize={20}/></Flex> : <></> //
+                    <Flex
+                        w={'100%'}
+                        justifyContent={"center"}
+                        alignItems={'center'}
+                    >
+                        <Icon
+                            as={AiOutlineUpload}
+                            color={'#c0725b'}
+                            boxSize={20}
+                        />
+                    </Flex>
+                    :
+                    <></> //
             }
         </Flex>
     </Box>
