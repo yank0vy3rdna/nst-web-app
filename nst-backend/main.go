@@ -1,27 +1,33 @@
 package main
 
 import (
+	"context"
+	"github.com/redis/go-redis/v9"
 	"google.golang.org/grpc"
-	"log"
-	"net"
-	grpc2 "nst-backend/grpc"
-	"nst-backend/jobServer"
+	"nst-backend/serverToServer"
+	"nst-backend/serverToServer/jobServer"
+	"nst-backend/web"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
-const address = "0.0.0.0:50051"
+const grpcAddress = "0.0.0.0:50051"
+const httpAddress = "0.0.0.0:8080"
 
 func main() {
-	lis, err := net.Listen("tcp", address)
-	if err != nil {
-		log.Fatal("error create network listener", err)
-	}
+	ctx, ctxCancel := context.WithCancel(context.Background())
+	rdb := redis.NewClient(&redis.Options{
+		Addr: ":6379",
+	})
 	grpcServer := grpc.NewServer()
-	defer grpcServer.GracefulStop()
-
-	grpc2.RegisterJobServiceServer(grpcServer, jobServer.NewJobServer())
-	log.Println("start listening on ", address)
-	err = grpcServer.Serve(lis)
-	if err != nil {
-		log.Fatal("error grpc serving", err)
-	}
+	jobService := jobServer.NewJobServer(ctx, rdb)
+	server := serverToServer.NewGrpcServer(grpcServer, grpcAddress, jobService)
+	webServer := web.NewWebServer(httpAddress, jobService)
+	go server.StartListening(ctx)
+	go webServer.StartListening()
+	c := make(chan os.Signal, 2)
+	signal.Notify(c, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+	<-c
+	ctxCancel()
 }
