@@ -44,8 +44,8 @@ class NST(object):
         self.cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225]).to(self.device)
 
     def image_loader(self, content: io.BytesIO, style: io.BytesIO):
-        content_img = Image.open(content)
-        style_img = Image.open(style)
+        content_img = Image.open(content).convert('RGB')
+        style_img = Image.open(style).convert('RGB')
 
         width, height = content_img.size
         style_img = style_img.resize((width, height))
@@ -142,9 +142,8 @@ class NST(object):
 
                 optimizer.zero_grad()
                 model(input_img)
-                content_score: Tensor = Tensor()
-                style_score: Tensor = Tensor()
-
+                content_score: Tensor = Tensor([0]).to(self.device)
+                style_score: Tensor = Tensor([0]).to(self.device)
                 for cl in content_loss:
                     content_score += cl.loss
                 for sl in style_loss:
@@ -161,8 +160,8 @@ class NST(object):
 
                 if run[0] % 50 == 0:
                     print("Step {}:".format(run[0]))
-                    print('Style Loss : {:4f} Content Loss: {:4f}'.format(
-                        style_score.item(), content_score.item()))
+                    # print('Style Loss : {:4f} Content Loss: {:4f}'.format(
+                    #     style_score.item(), content_score.item()))
 
                 return style_score + content_score
 
@@ -176,7 +175,5 @@ class NST(object):
         output_img = input_img.cpu().clone()  # cloning the tensor to not do changes on it
         output_img = output_img.squeeze(0)  # removing the fake batch dimension
         output_img = unloader(output_img)
-
-        if self.path is not None:
-            output_img.save(out)
-        yield 0.
+        output_img.save(out, format='PNG')
+        yield 1.

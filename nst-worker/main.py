@@ -10,7 +10,7 @@ worker_id = str(uuid.uuid4())
 
 print(f"Worker {worker_id} started")
 
-model = NST()
+model = NST(gpu=True, num_steps=150)
 
 
 def try_to_work():
@@ -29,20 +29,27 @@ def try_to_work():
         }[give_job_response.imageType].write(give_job_response.imageChunk)
         request_id = give_job_response.requestId
     out = io.BytesIO()
+    print("Processing...")
     nst_gen = model.run_nst(content_image, style_image, out)
 
     def progress_generator():
-        for progress in nst_gen:
-            yield job_request_pb2.JobProgressData(workerId=worker_id, requestId=request_id,
-                                                  progressPercent=progress)
+        try:
+            for progress in nst_gen:
+                yield job_request_pb2.JobProgressData(workerId=worker_id, requestId=request_id,
+                                                      progressPercent=progress)
+        except Exception as e:
+            print(e)
 
     stub.JobProgress(progress_generator())
-    img = io.BytesIO(out.read())
+    chunkBuf = io.BytesIO(out.getvalue())
 
     def result_generator():
-        if img:
+        while True:
+            chunk = chunkBuf.read(1024)
+            if not chunk:
+                break
             yield job_request_pb2.JobEndRequest(
-                imageChunk=img.read(1024),
+                imageChunk=chunk,
                 requestId=request_id,
                 workerId=worker_id
             )

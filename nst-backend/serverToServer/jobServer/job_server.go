@@ -7,7 +7,6 @@ import (
 	"github.com/redis/go-redis/v9"
 	"io"
 	"log"
-	"mime/multipart"
 	grpc2 "nst-backend/grpc"
 	"nst-backend/web"
 	"time"
@@ -30,7 +29,7 @@ func (j jobServer) ImageById(id string) ([]byte, error) {
 	}
 	return bytes, nil
 }
-func (j jobServer) UploadImage(file multipart.File) (string, error) {
+func (j jobServer) UploadImage(file io.ReadCloser) (string, error) {
 	bytesFile, err := io.ReadAll(file)
 	if err != nil {
 		log.Println("error reading image", err)
@@ -77,7 +76,7 @@ func (j jobServer) CreateTask(contentImageId string, styleImageId string) (strin
 func (j jobServer) CheckForNewMessages(requestId string) (web.WsMessage, bool, error) {
 	var msg web.WsMessage
 	bytes, err := j.rdb.LPop(j.ctx, wsQueueKey(requestId)).Bytes()
-	if err != redis.Nil {
+	if err == redis.Nil {
 		return msg, false, nil
 	}
 	if err != nil {
@@ -173,6 +172,9 @@ func (j jobServer) JobProgress(server grpc2.JobService_JobProgressServer) error 
 			return nil
 		}
 		jobProgressData, err := server.Recv()
+		if err == io.EOF {
+			break
+		}
 		if err != nil {
 			log.Println("error recv progress data", err)
 			return err
@@ -191,6 +193,7 @@ func (j jobServer) JobProgress(server grpc2.JobService_JobProgressServer) error 
 			return err
 		}
 	}
+	return nil
 }
 
 func (j jobServer) JobEnd(server grpc2.JobService_JobEndServer) error {
@@ -201,6 +204,9 @@ func (j jobServer) JobEnd(server grpc2.JobService_JobEndServer) error {
 			break
 		}
 		jobEndRequest, err := server.Recv()
+		if err == io.EOF {
+			break
+		}
 		if err != nil {
 			log.Println("error recv progress data", err)
 			return err
