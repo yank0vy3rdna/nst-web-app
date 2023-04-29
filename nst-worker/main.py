@@ -10,7 +10,7 @@ worker_id = str(uuid.uuid4())
 
 print(f"Worker {worker_id} started")
 
-model = NST(gpu=True, num_steps=150)
+model = NST(gpu=True, num_steps=250)
 
 
 def try_to_work():

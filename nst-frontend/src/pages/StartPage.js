@@ -7,10 +7,12 @@ import {Chudik} from "../components/Chudik";
 import {colorBackground, colorText} from "../styles/colors";
 import {useFileStore} from "../store/fileStore";
 import {GenerateButton} from "../components/GenerateButton";
+import {ResultBox} from "../components/ResultBox";
 
 export const StartPage = () => {
     const generationInProgress = useFileStore(state => state.generationInProgress);
     const isResultImageGenerated = useFileStore(state => state.isResultImageGenerated);
+    const resultImageUrl = useFileStore(state => state.resultImageUrl);
 
     const [isMobile] = useMediaQuery("(max-width: 1100px)")
 
@@ -21,13 +23,21 @@ export const StartPage = () => {
         paddingTop={'50px'}
         alignItems={"center"}
         bgColor={colorBackground}
+        justifyContent={"space-evenly"}
     >
         <SHeading color={colorText} text={'Neural Style Transfer Web App'} fontWeight={'bold'} size={'48px'}/>
-        {!generationInProgress && !isResultImageGenerated
-            ? <DropZoneWrapper/>
-            : <Box h={isMobile?'20vh':'30vh'}></Box>}
+        {
+            !isResultImageGenerated ? (
+                    !generationInProgress
+                        ?
+                        <DropZoneWrapper/>
+                        :
+                        <Box h={isMobile ? '20vh' : '30vh'}/>)
+                : <></>
+        }
         {generationInProgress ? <ProgressBar/> : <></>}
         {!isResultImageGenerated ? <GenerateButton/> : <></>}
+        {isResultImageGenerated ? <ResultBox url={resultImageUrl}></ResultBox> : <></>}
         <Chudik num={1} x={14} y={10} size={180}/>
         <Chudik num={2} x={78} y={5} size={130}/>
         <Chudik num={3} x={2} y={80} size={200}/>

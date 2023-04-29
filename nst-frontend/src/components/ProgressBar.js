@@ -1,22 +1,11 @@
-import {Box, Button, Flex, Progress, Text, useMediaQuery} from "@chakra-ui/react";
-import {buttonColorText, colorBackground, hoverButtonColorText} from "../styles/colors";
+import {Box, Flex, Progress, Text, useMediaQuery} from "@chakra-ui/react";
+import {buttonColorText} from "../styles/colors";
 import {useFileStore} from "../store/fileStore";
 
 export const ProgressBar = () => {
-    const isContentImageUploaded = useFileStore(state => state.isContentImageUploaded);
-    const isStyleImageUploaded = useFileStore(state => state.isStyleImageUploaded);
     const progressPercent = useFileStore(state => state.progressPercent);
-    const generationInProgress = useFileStore(state => state.generationInProgress);
-    const startGeneration = useFileStore(state => state.startGeneration);
-    const imagesNotUploadedYet = !(isContentImageUploaded && isStyleImageUploaded)
     const [isMobile] = useMediaQuery("(max-width: 1100px)")
-    const onClick = () => {
-        if (imagesNotUploadedYet) {
-            console.error("generate button clicked but images does not uploaded")
-            window.location.reload();
-        }
-        startGeneration()
-    }
+
     return <Flex
         justifyContent={'center'}
         alignItems={'center'}

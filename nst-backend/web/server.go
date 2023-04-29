@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"golang.org/x/net/websocket"
 	"io"
 	"log"
@@ -36,6 +37,12 @@ type WsMessage struct {
 
 func NewWebServer(httpAddress string, handler RouteHandler) *webServer {
 	e := echo.New()
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOriginFunc: func(origin string) (bool, error) {
+			return true, nil
+		},
+		AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
+	}))
 	w := &webServer{e: e, httpAddress: httpAddress, handler: handler}
 	w.registerRoutes()
 	return w
@@ -129,7 +136,7 @@ func (s webServer) registerRoutes() {
 						<-time.After(time.Second / 2)
 						continue
 					}
-					ctx, cancel = context.WithDeadline(ctx, time.Now().Add(time.Second*30))
+					ctx, cancel = context.WithDeadline(context.Background(), time.Now().Add(time.Second*30))
 					marshal, err := json.Marshal(wsMessage)
 					if err != nil {
 						log.Println("marshal error", err)

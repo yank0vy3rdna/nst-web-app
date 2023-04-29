@@ -169,10 +169,12 @@ func (j jobServer) JobProgress(server grpc2.JobService_JobProgressServer) error 
 
 	for {
 		if server.Context().Err() != nil {
+			log.Println("context err", server.Context().Err())
 			return nil
 		}
 		jobProgressData, err := server.Recv()
 		if err == io.EOF {
+			log.Println("end of stream")
 			break
 		}
 		if err != nil {
