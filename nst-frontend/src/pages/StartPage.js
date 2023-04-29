@@ -23,7 +23,7 @@ export const StartPage = () => {
         if (socket == null && requestId.RequestId !== "") {
             openWebSocketConnection(requestId)
         }
-    }, [ requestId])
+    }, [])
     return <Flex
         w={'100%'}
         h={'100vh'}
@@ -40,7 +40,9 @@ export const StartPage = () => {
                         ?
                         <DropZoneWrapper/>
                         :
-                        <Box h={isMobile ? '20vh' : '30vh'}/>)
+                        // <Box h={isMobile ? '20vh' : '30vh'}/>
+                        <></>
+                )
                 : <></>
         }
         {isResultImageGenerated ? <ResultBox url={resultImageUrl}></ResultBox> : <></>}

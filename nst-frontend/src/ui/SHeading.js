@@ -7,8 +7,7 @@ export const SHeading = ({color, text, fontWeight, size}) => {
     return <Flex
         alignItems={'center'}
         w={'100%'}
-        mb={'10px'}
-        mt={isMobile?'10px':'50px'}
+        m={'10px'}
         zIndex={200}
     >
         <Heading
