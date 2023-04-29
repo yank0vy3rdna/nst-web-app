@@ -164,6 +164,9 @@ func (j jobServer) GiveJob(request *grpc2.GiveJobRequest, server grpc2.JobServic
 func wsQueueKey(requestId string) string {
 	return "wsqueue:" + requestId
 }
+func finishedFlagKey(requestId string) string {
+	return "job_finished:" + requestId
+}
 
 func (j jobServer) JobProgress(server grpc2.JobService_JobProgressServer) error {
 
@@ -233,9 +236,21 @@ func (j jobServer) JobEnd(server grpc2.JobService_JobEndServer) error {
 		log.Println("error pushing to ws queue", err)
 		return err
 	}
+	err = j.rdb.Set(j.ctx, finishedFlagKey(requestId), true, 0).Err()
+	if err != nil {
+		log.Println("error setting finished flag")
+		return err
+	}
 	return nil
 }
-
+func (j jobServer) CheckIfJobFinished(ctx context.Context, requestId string) bool {
+	result, err := j.rdb.Exists(ctx, finishedFlagKey(requestId)).Result()
+	if err != nil {
+		log.Println("error check if job finished")
+		return false
+	}
+	return result > 0
+}
 func (j jobServer) mustEmbedUnimplementedJobServiceServer() {
 	//TODO implement me
 	panic("implement me")

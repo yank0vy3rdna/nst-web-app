@@ -22,6 +22,7 @@ type RouteHandler interface {
 	CreateTask(contentImageId string, styleImageId string) (string, error)
 	CheckForNewMessages(requestId string) (WsMessage, bool, error)
 	ImageById(id string) ([]byte, error)
+	CheckIfJobFinished(ctx context.Context, id string) bool
 }
 type MessageType int
 
@@ -125,6 +126,15 @@ func (s webServer) registerRoutes() {
 						return
 					default:
 
+					}
+					if s.handler.CheckIfJobFinished(ctx, requestId) {
+						marshal, err := json.Marshal(WsMessage{MessageType: DoneMessageType})
+						if err != nil {
+							return
+						}
+						websocket.Message.Send(conn, string(marshal))
+						cancel()
+						return
 					}
 					wsMessage, exists, err := s.handler.CheckForNewMessages(requestId)
 					if err != nil {

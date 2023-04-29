@@ -6,7 +6,7 @@ export const ResultBox = ({url}) => {
     return <Box
         // minW={'320px'}
         borderRadius={'8px'}
-        marginBottom={isMobile ? '0px' : '170px'}
+        // marginBottom={isMobile ? '0px' : '170px'}
         outline={"4px dashed"}
         outlineColor={'rgba(0,0,0,0.3)'}
     >

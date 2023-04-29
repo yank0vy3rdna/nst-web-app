@@ -1,4 +1,4 @@
-export const colorBackground = '#fff1f1'
+export const colorBackground = '#fffcfc'
 export const buttonColorText = '#da8058'
 export const hoverButtonColorText = '#ff6925'
 export const colorText = '#daa38d'
