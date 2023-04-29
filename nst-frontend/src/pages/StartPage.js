@@ -35,14 +35,9 @@ export const StartPage = () => {
     >
         <SHeading color={colorText} text={'Neural Style Transfer Web App'} fontWeight={'bold'} size={'48px'}/>
         {
-            !isResultImageGenerated ? (
-                    !generationInProgress
-                        ?
-                        <DropZoneWrapper/>
-                        :
-                        // <Box h={isMobile ? '20vh' : '30vh'}/>
-                        <></>
-                )
+            !isResultImageGenerated && !generationInProgress
+                ?
+                <DropZoneWrapper/>
                 : <></>
         }
         {isResultImageGenerated ? <ResultBox url={resultImageUrl}></ResultBox> : <></>}

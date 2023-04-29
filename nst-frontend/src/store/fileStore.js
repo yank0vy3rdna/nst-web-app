@@ -15,7 +15,7 @@ const setImageFromFile = (onLoad) => {
     }
 }
 
-const baseUrl = "localhost:8080"
+const baseUrl = "/api"
 
 async function dataURLtoBlob(dataURL) {
     const response = await fetch(dataURL);
@@ -54,7 +54,7 @@ export const useFileStore = create(
                         set(initialState)
                     },
                     openWebSocketConnection: (requestId) => {
-                        const socket = new WebSocket(`ws://${baseUrl}/ws?requestId=${requestId.RequestId}`);
+                        const socket = new WebSocket(`wss://${baseUrl}/ws?requestId=${requestId.RequestId}`);
                         socket.addEventListener('open', () => {
                             set({socket: socket});
                         });
@@ -71,7 +71,7 @@ export const useFileStore = create(
                                         generationInProgress: false,
                                         progressPercent: 1,
                                         isResultImageGenerated: true,
-                                        resultImageUrl: `http://${baseUrl}/image?id=${requestId.RequestId}`
+                                        resultImageUrl: `https://${baseUrl}/image?id=${requestId.RequestId}`
                                     });
                                     break
                                 default:
@@ -87,18 +87,18 @@ export const useFileStore = create(
                     },
 
                     startGeneration: async () => {
-                        const contentImageResp = await fetch(`http://${baseUrl}/image`, {
+                        const contentImageResp = await fetch(`https://${baseUrl}/image`, {
                             method: "PUT",
                             body: await dataURLtoBlob(get().contentImage)
                         })
                         const contentImage = await contentImageResp.json()
-                        const styleImageResp = await fetch(`http://${baseUrl}/image`, {
+                        const styleImageResp = await fetch(`https://${baseUrl}/image`, {
                             method: "PUT",
                             body: await dataURLtoBlob(get().styleImage)
                         })
                         const styleImage = await styleImageResp.json()
 
-                        const generateResp = await fetch(`http://${baseUrl}/generate`, {
+                        const generateResp = await fetch(`https://${baseUrl}/generate`, {
                             method: "POST",
                             headers: {
                                 'content-type': 'application/json'

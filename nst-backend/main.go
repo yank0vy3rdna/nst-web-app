@@ -18,7 +18,7 @@ const httpAddress = "0.0.0.0:8080"
 func main() {
 	ctx, ctxCancel := context.WithCancel(context.Background())
 	rdb := redis.NewClient(&redis.Options{
-		Addr: ":6379",
+		Addr: "redis:6379",
 	})
 	grpcServer := grpc.NewServer()
 	jobService := jobServer.NewJobServer(ctx, rdb)
