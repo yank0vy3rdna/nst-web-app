@@ -24,7 +24,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "react-scripts build && tar -czvf build.tar.gz build && scp build.tar.gz yank0vy3rdna.ru:~ && ssh yank0vy3rdna.ru \"rm -rf /var/www/html/nst.yank0vy3rdna.ru/* && tar -xzvf build.tar.gz && mv build/* /var/www/html/nst.yank0vy3rdna.ru/\""
   },
   "eslintConfig": {
     "extends": [

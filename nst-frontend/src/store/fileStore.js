@@ -15,7 +15,7 @@ const setImageFromFile = (onLoad) => {
     }
 }
 
-const baseUrl = "/api"
+const baseUrl = "nst.yank0vy3rdna.ru/api"
 
 async function dataURLtoBlob(dataURL) {
     const response = await fetch(dataURL);
@@ -46,9 +46,6 @@ export const useFileStore = create(
                     }),
                     setStyleImage: setImageFromFile((resolve, result) => {
                         resolve(set({styleImage: result, isStyleImageUploaded: true}));
-                    }),
-                    setResultImage: setImageFromFile((resolve, result) => {
-                        resolve(set({resultImage: result, isResultImageGenerated: true}));
                     }),
                     reset: () => {
                         set(initialState)

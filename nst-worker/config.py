@@ -1,1 +1,1 @@
-GRPC_URL = 'localhost:50051'
+GRPC_URL = 'nst.yank0vy3rdna.ru:50051'

@@ -177,3 +177,5 @@ class NST(object):
         output_img = unloader(output_img)
         output_img.save(out, format='PNG')
         yield 1.
+    def close(self):
+        self.cnn.to_empty()
